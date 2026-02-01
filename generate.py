@@ -115,7 +115,6 @@ class CrosswordCreator():
                 if len(word) != var.length:
                     self.domains[var].remove(word)
 
-
     def revise(self, x, y):
         """
         Make variable `x` arc consistent with variable `y`.
@@ -142,8 +141,8 @@ class CrosswordCreator():
         # print(y, self.domains[y])
         # print(self.crossword.overlaps[x,y][1])
 
-        letter_x = self.crossword.overlaps[x,y][0]
-        letter_y = self.crossword.overlaps[x,y][1]
+        letter_x = self.crossword.overlaps[x, y][0]
+        letter_y = self.crossword.overlaps[x, y][1]
 
         change = False
 
@@ -157,8 +156,6 @@ class CrosswordCreator():
                 change = True
 
         return change
-
-
 
     def ac3(self, arcs=None):
         """
@@ -193,7 +190,7 @@ class CrosswordCreator():
             for varx in self.domains:
                 for vary in self.crossword.neighbors(varx):
                     if varx != vary:
-                        queue.append((varx,vary))
+                        queue.append((varx, vary))
         else:
             queue = arcs
         
@@ -204,11 +201,8 @@ class CrosswordCreator():
                     return False
                 for z in self.crossword.neighbors(x):
                     if z != y:
-                        queue.append((z,x))
+                        queue.append((z, x))
         return True
-
-        
-
 
     def assignment_complete(self, assignment):
         """
@@ -225,8 +219,6 @@ class CrosswordCreator():
             if var not in assignment:
                 return False
         return True
-
-
 
     def consistent(self, assignment):
         """
@@ -269,9 +261,9 @@ class CrosswordCreator():
                 for word2 in self.domains[var2]:
                     if word1[i] != word2[j]:
                         score += 1
-            s_val.update({word1:score})
+            s_val.update({word1: score})
 
-        return [v[0] for v in sorted(s_val.items(), key = lambda item:item[1], reverse = False)]   
+        return [v[0] for v in sorted(s_val.items(), key=lambda item: item[1], reverse=False)]   
 
     def select_unassigned_variable(self, assignment):
         """
@@ -307,7 +299,7 @@ class CrosswordCreator():
             return assignment
         var = self.select_unassigned_variable(assignment)
         for value in self.domains[var]:
-            assignment.update({var:value})
+            assignment.update({var: value})
             if self.consistent(assignment):
                 result = self.backtrack(assignment)
                 if result:
